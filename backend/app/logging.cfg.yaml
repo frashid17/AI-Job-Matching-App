@@ -1,0 +1,26 @@
+version: 1
+disable_existing_loggers: False
+formatters:
+  json_formatter:
+    format: '%(asctime)s - %(name)s - %(levelname)s - session:%(session_id)s %(message)s'
+    (): app.logger.JsonLogFormatter
+handlers:
+  console:
+    class: logging.StreamHandler
+    level: DEBUG
+    formatter: json_formatter
+    stream: ext://sys.stdout
+    filters: [session_filter]
+loggers:
+  _template: &template_logger  # Define an anchor
+    level: DEBUG
+    propagate: yes
+  common_libs.llm.models_utils: *template_logger
+  CollectExperiencesAgent: *template_logger
+  SkillsExplorerAgent: *template_logger
+filters:
+  session_filter:
+    (): app.logger.SessionIdLogFilter
+root:
+  level: INFO
+  handlers: [ console ]

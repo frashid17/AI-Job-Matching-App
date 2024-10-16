@@ -1,0 +1,72 @@
+name: Setup envs
+
+on:
+  workflow_call:
+    inputs:
+      target-environment:
+        required: true
+        type: string
+    outputs:
+      domain-name:
+        description: "The domain name in the target environment"
+        value: ${{ jobs.setup-env.outputs.domain-name }}
+      frontend-url:
+        description: "The frontend url in the target environment"
+        value: ${{ jobs.setup-env.outputs.frontend-url }}
+      backend-url:
+        description: "The backend url in the target environment, including the base path /api"
+        value: ${{ jobs.setup-env.outputs.backend-url }}
+      frontend-domain:
+        description: "The frontend domain in the target environment"
+        value: ${{ jobs.setup-env.outputs.frontend-domain }}
+      backend-domain:
+        description: "The backend domain in the target environment"
+        value: ${{ jobs.setup-env.outputs.backend-domain }}
+      taxonomy-database-name:
+        description: "The taxonomy database name of the in the target environment"
+        value: ${{ jobs.setup-env.outputs.taxonomy-database-name }}
+      taxonomy-model-id:
+        description: "The taxonomy model id in the target environment/partner"
+        value: ${{ jobs.setup-env.outputs.taxonomy-model-id }}
+      application-database-name:
+        description: "The application database name in the target environment"
+        value: ${{ jobs.setup-env.outputs.application-database-name }}
+      vertex-api-region:
+        description: "The vertex api region in the target environment"
+        value: ${{ jobs.setup-env.outputs.vertex-api-region }}
+
+jobs:
+  setup-env:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.target-environment }}
+    outputs:
+      domain-name: ${{ steps.setup.outputs.domain_name }}
+      frontend-url: ${{ steps.setup.outputs.frontend_url }}
+      backend-url: ${{ steps.setup.outputs.backend_url }}
+      frontend-domain: ${{ steps.setup.outputs.frontend_domain }}
+      backend-domain: ${{ steps.setup.outputs.backend_domain }}
+      taxonomy-database-name: ${{ vars.TAXONOMY_DATABASE_NAME }}
+      taxonomy-model-id: ${{ vars.TAXONOMY_MODEL_ID }}
+      application-database-name: ${{ vars.APPLICATION_DATABASE_NAME }}
+      vertex-api-region: ${{ vars.VERTEX_API_REGION }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run setup script
+        id: setup
+        run: |
+          chmod +x setupEnv.sh
+          ./setupEnv.sh ${{ inputs.target-environment }} ${{ vars.BASE_DOMAIN }}
+        working-directory: pipeline
+      - name: Log set envs
+        run: |
+          echo "domain-name: ${{ steps.setup.outputs.domain_name }}"
+          echo "frontend-url: ${{ steps.setup.outputs.frontend_url }}"
+          echo "backend-url: ${{ steps.setup.outputs.backend_url }}"
+          echo "frontend-domain: ${{ steps.setup.outputs.frontend_domain }}"
+          echo "backend-domain: ${{ steps.setup.outputs.backend_domain }}"
+          echo "taxonomy-database-name: ${{ steps.setup.outputs.taxonomy-database-name }}"
+          echo "taxonomy-model-id: ${{ steps.setup.outputs.taxonomy-model-id }}"
+          echo "application-database-name: ${{ steps.setup.outputs.application-database-name }}"
+          echo "vertex-api-region: ${{ steps.setup.outputs.vertex-api-region }}"

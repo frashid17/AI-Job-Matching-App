@@ -1,0 +1,27 @@
+# For options and defaults see https://github.com/pylint-dev/pylint/blob/main/pylintrc
+[MASTER]
+# Solve "Unable to import error" when running pylint, see https://stackoverflow.com/questions/1899436/pylint-unable-to-import-error-how-to-set-pythonpath
+init-hook='import os, sys; sys.path.append(os.path.dirname("."))'
+
+# whitelisting pydantic see https://github.com/pydantic/pydantic/issues/1961
+extension-pkg-whitelist=pydantic
+
+# Load plugins to avoid passing --load-plugins=pylint_pydantic
+load-plugins=pylint_pydantic
+
+# Files or directories to be skipped
+ignore-paths=venv-backend,conftest.py
+
+[FORMAT]
+
+# Maximum number of characters on a single line.
+max-line-length=160 # Setting this to 160 for more modern screens, can be changed as needed alter
+
+[MESSAGES CONTROL]
+disable=missing-module-docstring,
+
+
+[DESIGN]
+
+# Disable the Too few public methods warning completely
+disable=R0903

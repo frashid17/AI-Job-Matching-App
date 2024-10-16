@@ -1,0 +1,7 @@
+__pycache__
+venv-backend
+.env
+keys
+test_output/
+.idea/
+logs/

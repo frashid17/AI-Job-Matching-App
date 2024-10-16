@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`render tests should render the Chat message with sent_at when typing is set to false 1`] = `
+<div
+  class="MuiBox-root css-1c8zvho"
+  data-testid="chat-message-container-2fbaf2ef-9eab-485a-bd28-b4a164e18b06"
+  origin="COMPASS"
+>
+  <div
+    class="MuiBox-root css-1dw9g6t"
+    origin="COMPASS"
+  >
+    <p
+      class="MuiTypography-root MuiTypography-body1 css-gxvxtl-MuiTypography-root"
+    >
+      Hello, I'm Compass
+    </p>
+  </div>
+  <span
+    class="MuiTypography-root MuiTypography-caption css-1ly2vi5-MuiTypography-root"
+    data-testid="chat-message-sent_at-2fbaf2ef-9eab-485a-bd28-b4a164e18b06"
+  >
+    sent 
+    Some Date
+  </span>
+</div>
+`;
